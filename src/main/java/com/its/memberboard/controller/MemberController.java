@@ -40,8 +40,8 @@ public class MemberController {
         MemberDTO loginResult = memberService.login(memberDTO);
         if (loginResult != null) {
             session.setAttribute("loginId", loginResult.getId());
-            session.setAttribute("loginMemberId", loginResult.getMemberId());
-            if(loginResult.getMemberId().equals("admin")){
+            session.setAttribute("loginMemberEmail", loginResult.getMemberEmail());
+            if(loginResult.getMemberEmail().equals("admin")){
                 return "memberPages/admin";
             }
             return "index";
@@ -51,8 +51,8 @@ public class MemberController {
 
     }
     @PostMapping("/dup-check")
-    public @ResponseBody String duplicateCheck(String memberId){
-        MemberDTO memberDTO = memberService.duplicateCheck(memberId);
+    public @ResponseBody String duplicateCheck(String memberEmail){
+        MemberDTO memberDTO = memberService.duplicateCheck(memberEmail);
         if(memberDTO != null) {
             return "중복";
         }else {
@@ -60,7 +60,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/")
     public String findAll(Model model){
         List<MemberDTO> memberDTOList = memberService.findAll();
         model.addAttribute("memberList", memberDTOList);

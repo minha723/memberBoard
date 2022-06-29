@@ -9,14 +9,14 @@
 <body>
 <table board="1">
     <tr>
-        <th>아이디</th>
+        <th>이메일</th>
         <th>비밀번호</th>
         <th>이름</th>
         <th>조회</th>
         <th>삭제</th>
     </tr>
     <tr th:each="member : ${memberList}">
-        <td><a th:href="@{|/member/${member.id}|}">[[${member.memberId}]]</a></td>
+        <td><a th:href="@{|/member/${member.id}|}">[[${member.memberEmail}]]</a></td>
         <td th:text="${member.memberPassword}"></td>
         <td th:text="${member.memberName}"></td>
         <td>

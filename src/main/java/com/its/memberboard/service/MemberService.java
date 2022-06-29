@@ -35,7 +35,7 @@ public class MemberService {
     }
 
     public MemberDTO login(MemberDTO memberDTO) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberId(memberDTO.getMemberId());
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberDTO.getMemberEmail());
         if(optionalMemberEntity.isPresent()){
             MemberEntity memberEntity = optionalMemberEntity.get();
             if(memberEntity.getMemberPassword().equals(memberDTO.getMemberPassword())){
@@ -48,8 +48,8 @@ public class MemberService {
         }
     }
 
-    public MemberDTO duplicateCheck(String memberId) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberId(memberId);
+    public MemberDTO duplicateCheck(String memberEmail) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberEmail);
         if(optionalMemberEntity.isPresent()){
             MemberEntity memberEntity = optionalMemberEntity.get();
             return MemberDTO.toDTO(memberEntity);

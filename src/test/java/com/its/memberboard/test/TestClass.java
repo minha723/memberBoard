@@ -22,7 +22,7 @@ public class TestClass {
     private MemberService memberService;
 
     public MemberDTO newMember(int i){
-        MemberDTO memberDTO = new MemberDTO("id"+ i, "password"+1, "Name"+1, "email"+i, "mobile"+i);
+        MemberDTO memberDTO = new MemberDTO("password"+1, "Name"+1, "email"+i, "mobile"+i);
         return memberDTO;
     }
 

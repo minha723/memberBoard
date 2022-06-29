@@ -11,10 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class MemberDTO {
     private Long id;
-    private String memberId;
+    private String memberEmail;
     private String memberPassword;
     private String memberName;
-    private String memberEmail;
     private String memberMobile;
     private String memberProfileName;
     private MultipartFile memberProfile;
@@ -23,7 +22,6 @@ public class MemberDTO {
     public static MemberDTO toDTO(MemberEntity memberEntity) {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(memberEntity.getId());
-        memberDTO.setMemberId(memberEntity.getMemberId());
         memberDTO.setMemberPassword(memberEntity.getMemberPassword());
         memberDTO.setMemberName(memberEntity.getMemberName());
         memberDTO.setMemberEmail(memberEntity.getMemberEmail());
@@ -32,8 +30,7 @@ public class MemberDTO {
         return memberDTO;
     }
 
-    public MemberDTO(String memberId, String memberPassword, String memberName, String memberEmail, String memberMobile) {
-        this.memberId = memberId;
+    public MemberDTO(String memberPassword, String memberName, String memberEmail, String memberMobile) {
         this.memberPassword = memberPassword;
         this.memberName = memberName;
         this.memberEmail = memberEmail;

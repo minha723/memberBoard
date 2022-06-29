@@ -10,27 +10,26 @@
 <h2>save-form</h2>
 
 <form action="/member/save" method="post" enctype="multipart/form-data">
-    <input type="text" id="memberId" name="memberId" onblur="duplicateCheck()" placeholder="아이디"> <br>
+    <input type="text" id="memberEmail" name="memberEmail" onblur="duplicateCheck()" placeholder="이메일"> <br>
     <p id="duplicate-check"></p>
     <input type="text" name="memberPassword" placeholder="비밀번호"> <br>
     <input type="text" name="memberName" placeholder="이름"> <br>
-    <input type="text" name="memberEmail" placeholder="이메일"> <br>
     <input type="text" name="memberMobile" placeholder="전화번호"> <br>
     <input type="file" name="memberProfile"> <br>
     <input type="submit" value="회원가입">
 </form>
 
 </body>
-<script>
+<script th:inline="javascript">
     const duplicateCheck = () => {
-      const memberId = document.getElementById("memberId").value;
+      const memberEmail = document.getElementById("memberEmail").value;
       const result = document.getElementById("duplicate-check");
 
       $.ajax({
           type: "post",
           url: "/member/dup-check",
           data: {
-              "memberId" : memberId,
+              "memberEmail" : memberEmail,
           },
           dataType:"text",
           success: function (res){
