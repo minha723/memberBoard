@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<h2>save-form</h2>
+
+<form action="/member/save" method="post" enctype="multipart/form-data">
+    <input type="text" id="memberId" name="memberId" onblur="duplicateCheck()" placeholder="아이디"> <br>
+    <p id="duplicate-check"></p>
+    <input type="text" name="memberPassword" placeholder="비밀번호"> <br>
+    <input type="text" name="memberName" placeholder="이름"> <br>
+    <input type="text" name="memberEmail" placeholder="이메일"> <br>
+    <input type="text" name="memberMobile" placeholder="전화번호"> <br>
+    <input type="file" name="memberProfile"> <br>
+    <input type="submit" value="회원가입">
+</form>
+
+</body>
+<script>
+    const duplicateCheck = () => {
+      const memberId = document.getElementById("memberId").value;
+      const result = document.getElementById("duplicate-check");
+
+      $.ajax({
+          type: "post",
+          url: "/member/dup-check",
+          data: {
+              "memberId" : memberId,
+          },
+          dataType:"text",
+          success: function (res){
+              if(res == "중복"){
+                  result.innerText ="중복된 아이디가 존재합니다.";
+                  result.style.color = "red";
+              }else {
+                  result.innerText ="";
+              }
+          },error: function (){
+              alert("ajax 실패");
+          }
+      })
+    }
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<table board="1">
+    <tr>
+        <th>아이디</th>
+        <th>비밀번호</th>
+        <th>이름</th>
+        <th>조회</th>
+        <th>삭제</th>
+    </tr>
+    <tr th:each="member : ${memberList}">
+        <td><a th:href="@{|/member/${member.id}|}">[[${member.memberId}]]</a></td>
+        <td th:text="${member.memberPassword}"></td>
+        <td th:text="${member.memberName}"></td>
+        <td>
+            <a th:href="@{|/member/${member.id}|}">조회</a>
+        </td>
+        <td><a th:href="@{|/member/delete/${member.id}|}">삭제</a></td>
+    </tr>
+</table>
+
+<div id="member-detail"> </div>
+
+</body>
+
+</html>
