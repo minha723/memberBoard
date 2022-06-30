@@ -2,13 +2,16 @@ package com.its.memberboard.controller;
 
 import com.its.memberboard.common.PagingConst;
 import com.its.memberboard.dto.BoardDTO;
+import com.its.memberboard.dto.CommentDTO;
+import com.its.memberboard.entity.MemberEntity;
 import com.its.memberboard.service.BoardService;
-import lombok.Getter;
+import com.its.memberboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,16 +24,19 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     private String saveForm(){
         return "boardPages/save";
     }
 
+
     @PostMapping("/save")
     private String save(@ModelAttribute BoardDTO boardDTO) throws IOException {
+        System.out.println("boardDTO = " + boardDTO);
         Long savedId = boardService.save(boardDTO);
-        return "redirect: /board/"+ savedId;
+        return "redirect:/board/"+ savedId;
     }
 
     @GetMapping("/")
@@ -46,10 +52,36 @@ public class BoardController {
 
     @GetMapping("/{id}")
     public String findById(@PathVariable Long id, Model model){
-        System.out.println("id = " + id);
         BoardDTO boardDTO= boardService.findById(id);
+        List<CommentDTO> commentDTOList = commentService.findByBoardId(id);
         model.addAttribute("board", boardDTO);
+        model.addAttribute("commentList", commentDTOList);
         return "boardPages/detail";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteById(@PathVariable Long id){
+        boardService.deleteById(id);
+        return "redirect:/board/";
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable Long id, Model model){
+        BoardDTO updateBoardDTO = boardService.findById(id);
+        model.addAttribute("updateBoard", updateBoardDTO);
+        return "boardPages/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute BoardDTO boardDTO){
+        Long updateId = boardService.update(boardDTO);
+        return "redirect:/board/" + updateId;
+    }
+
+    @PostMapping("/search")
+    public String search(@RequestParam("q") String q, Model model){
+        List<BoardDTO> searchList = boardService.search(q);
+        model.addAttribute("boardList", searchList);
+        return "boardPages/list";
+    }
 }

@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-<table>
+<table class="table">
     <tr>
         <th>글번호</th>
         <th>제목</th>
@@ -22,13 +25,84 @@
         <td th:text="${board.boardHits}"></td>
         <td><img th:src="@{|/upload/${board.boardFileName}|}" width="100" height="100" alt=""></td>
     </tr>
-
-    <div th:if="${board.boardWriter.equals(${session.loginMemberEmail})}">
-        <button th:onclick="">수정</button>
-        <button th:onclick="">삭제</button>
-    </div>
-
-
 </table>
+
+<div th:if="${session.loginMemberEmail}">
+    <input type="hidden" id="commentBoardId" name="commentBoardId" th:value="${board.id}">
+    작성자:
+    <input type="text" id="commentWriter" name="commentWriter" readonly th:value="${session.loginMemberEmail}">
+    댓글:
+    <input type="text" id="commentContents" name="commentContents">
+    <input type="button" th:onclick="commentSave([[${board.id}]])" value="댓글달기">
+</div>
+
+<div th:if="${session.loginMemberEmail.toString().equals('admin')}">
+    <button class="btn"><a th:href="@{|/board/delete/${board.id}|}">삭제</a></button>
+</div>
+
+<div th:if="${session.loginMemberEmail.toString()}==${board.boardWriter}">
+    <button class="btn"><a th:href="@{|/board/update/${board.id}|}">수정</a></button>
+    <button class="btn"><a th:href="@{|/board/delete/${board.id}|}">삭제</a></button>
+</div>
+
+<div th:if="${session.loginMemberEmail.isEmpty()}">
+</div>
+
+<div id="comment-list">
+    <table class="table">
+        <tr>
+            <th>댓글번호</th>
+            <th>작성자</th>
+            <th>내용</th>
+            <th>작성시간</th>
+        </tr>
+        <tr th:each="comment : ${commentList}">
+            <td th:text="${comment.id}"></td>
+            <td th:text="${comment.commentWriter}"></td>
+            <td th:text="${comment.commentContents}"></td>
+            <td th:text="*{#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+        </tr>
+    </table>
+</div>
+
+
 </body>
+
+<script th:inline="javascript">
+    const commentSave = (boardId) => {
+        const commentContents = document.getElementById("commentContents").value;
+        const commentWriter = [[${session.loginMemberEmail}]];
+        $.ajax({
+            type: "post",
+            url: "/comment/save",
+            data: {
+                "commentBoardId": boardId,
+                "commentContents": commentContents,
+                "commentWriter": commentWriter
+            },
+            dataType: "json",
+            success: function (result) {
+
+                let output = "<table class='table'>";
+                output += "<tr><th>댓글번호</th>";
+                output += "<th>작성자</th>";
+                output += "<th>내용</th>";
+                output += "<th>작성시간</th>";
+                for (let i in result) {
+                    output += "<tr>";
+                    output += "<td>" + result[i].id + "</td>";
+                    output += "<td>" + result[i].commentWriter + "</td>";
+                    output += "<td>" + result[i].commentContents + "</td>";
+                    output += "<td th:text='*{#temporals.format(" + result[i].createdTime + ", 'yyyy-MM-dd HH:mm:ss'" + ")}'>" + "</td>";
+                    output += "</tr>";
+
+                }
+                output += "</table>";
+                document.getElementById('comment-list').innerHTML = output;
+                document.getElementById('commentContents').value = '';
+            }
+
+        })
+    }
+</script>
 </html>

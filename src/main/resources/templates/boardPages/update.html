@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/board/update" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" th:value="${updateBoard.id}" readonly><br>
+    <input type="text" name="boardWriter" th:value="${updateBoard.boardWriter}" readonly><br>
+    <input type="text" name="boardTitle" th:value="${updateBoard.boardTitle}" readonly><br>
+    <input type="text" name="boardContents" th:value="${updateBoard.boardContents}" ><br>
+    <input type="text" name="boardHit" th:value="${updateBoard.boardHits}" readonly><br>
+    <input type="hidden" name="boardFileName" th:value="${updateBoard.boardFileName}" readonly><br>
+    <input type="submit" value="수정하기">
+</form>
+
+</body>
+</html>

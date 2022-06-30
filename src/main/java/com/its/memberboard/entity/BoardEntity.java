@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -18,9 +20,9 @@ public class BoardEntity extends BaseEntity{
     private Long id;
     @Column(name = "board_title", nullable = false)
     private String boardTitle;
-    @Column(name = "board_Writer", nullable = false)
+    @Column(name = "board_writer", nullable = false)
     private String boardWriter;
-    @Column(name = "board_Contents")
+    @Column(name = "board_contents")
     private String boardContents;
     @Column(name = "board_hits")
     private int boardHits;
@@ -31,11 +33,14 @@ public class BoardEntity extends BaseEntity{
     @JoinColumn(name = "member_id")
     private MemberEntity memberEntity;
 
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
+
 
     public static BoardEntity toSaveEntity(BoardDTO boardDTO, MemberEntity memberEntity) {
         BoardEntity boardEntity = new BoardEntity();
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
-        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardWriter(memberEntity.getMemberEmail());
         boardEntity.setBoardContents(boardDTO.getBoardContents());
         boardEntity.setBoardFileName(boardDTO.getBoardFileName());
         boardEntity.setBoardHits(0);

@@ -26,8 +26,8 @@ public class MemberController {
 
     @PostMapping("/save")
     public String save(@ModelAttribute MemberDTO memberDTO) throws IOException {
-        Long id = memberService.save(memberDTO);
-        return "index";
+        memberService.save(memberDTO);
+        return "redirect:/member/login";
     }
 
     @GetMapping("/login")
@@ -82,6 +82,19 @@ public class MemberController {
     @GetMapping("/logout")
     public String logout(HttpSession session){
         session.invalidate();
+        return "index";
+    }
+
+    @GetMapping("/mypage/{id}")
+    public String updateForm(@PathVariable("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("updateMember", memberDTO);
+        return "memberPages/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute MemberDTO memberDTO){
+        Long updatedId = memberService.update(memberDTO);
         return "index";
     }
 

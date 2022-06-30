@@ -10,6 +10,11 @@
 
 <h2>회원제 게시판</h2>
 
+<form action="/board/search" method="post">
+    <input type="text" name="q" id="q" placeholder="검색할 작성자 또는 제목을 입력">
+    <input type="submit" value="검색">
+</form>
+
 <table class="table table-hover">
     <thead>
     <tr>
@@ -31,7 +36,7 @@
     </tbody>
 </table>
 
-<div class="container">
+<div th:if="${startPage}" class="container">
     <ul class="pagination justify-content-center">
         <li class="page-item">
             <!--첫페이지 요청 링크-->

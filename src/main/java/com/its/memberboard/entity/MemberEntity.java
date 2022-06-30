@@ -12,14 +12,18 @@ import java.util.List;
 @Getter @Setter
 @Table(name = "member_table")
 public class MemberEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-    @Column(length = 50, nullable = false, unique = true)
+
+    @Column(length = 50, nullable = false)
     private String memberEmail;
+
     @Column(length = 30, nullable = false)
     private String memberPassword;
+
     @Column(length = 20)
     private String memberName;
     @Column(length = 30)
@@ -36,9 +40,9 @@ public class MemberEntity {
 
     public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
-        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberMobile(memberDTO.getMemberMobile());
         memberEntity.setMemberProfileName(memberDTO.getMemberProfileName());
         return memberEntity;
@@ -47,14 +51,12 @@ public class MemberEntity {
     public static MemberEntity toUpdateEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setId(memberDTO.getId());
+        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());
         memberEntity.setMemberName(memberDTO.getMemberName());
-        memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberMobile(memberDTO.getMemberMobile());
         memberEntity.setMemberProfileName(memberDTO.getMemberProfileName());
         return memberEntity;
     }
-
-
 
 }
