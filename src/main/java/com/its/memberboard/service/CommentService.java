@@ -41,4 +41,8 @@ public class CommentService {
             commentDTOList.add(CommentDTO.toDTO(comment));
         }return commentDTOList;
     }
+
+//    public void deleteById(Long id) {
+//        boardRepository.deleteById(id);
+//    }
 }

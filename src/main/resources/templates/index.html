@@ -11,7 +11,7 @@
 <div class="container text-center" th:if="${session.loginMemberEmail}">
     <a href="/board/save">글작성</a>
     <a href="/member/logout">로그아웃</a>
-    <a th:href="@{|/member/mypage/${session.loginId}|}">마이페이지</a>
+    <a th:href="@{|/member/update/${session.loginId}|}">마이페이지</a>
     <a href="/board/">글목록</a>
 </div>
 <div class="container" th:unless="${session.loginMemberEmail}">

@@ -30,10 +30,10 @@ public class MemberDTO {
         return memberDTO;
     }
 
-    public MemberDTO(String memberPassword, String memberName, String memberEmail, String memberMobile) {
+    public MemberDTO(String memberEmail, String memberPassword, String memberName, String memberMobile) {
+        this.memberEmail = memberEmail;
         this.memberPassword = memberPassword;
         this.memberName = memberName;
-        this.memberEmail = memberEmail;
         this.memberMobile = memberMobile;
     }
 }

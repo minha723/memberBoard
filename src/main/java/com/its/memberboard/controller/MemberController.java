@@ -59,6 +59,20 @@ public class MemberController {
         return "redirect: /member/";
     }
 
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable("id") Long id, Model model){
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("updateMember", memberDTO);
+        return "memberPages/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute MemberDTO memberDTO){
+        Long updatedId = memberService.update(memberDTO);
+        return "redirect: /member/"+ updatedId;
+    }
+
     @GetMapping("/login")
     public String loginForm() {
         return "memberPages/login";
@@ -73,14 +87,12 @@ public class MemberController {
             if(loginResult.getMemberEmail().equals("admin")){
                 return "memberPages/admin";
             }
-            return "index";
+            return "redirect:/board/";
         } else {
             return "memberPages/login";
         }
 
     }
-
-
 
     @GetMapping("/logout")
     public String logout(HttpSession session){
@@ -88,17 +100,5 @@ public class MemberController {
         return "index";
     }
 
-    @GetMapping("/mypage/{id}")
-    public String updateForm(@PathVariable("id") Long id, Model model){
-        MemberDTO memberDTO = memberService.findById(id);
-        model.addAttribute("updateMember", memberDTO);
-        return "memberPages/update";
-    }
-
-    @PostMapping("/update")
-    public String update(@ModelAttribute MemberDTO memberDTO){
-        Long updatedId = memberService.update(memberDTO);
-        return "index";
-    }
 
 }

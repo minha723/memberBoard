@@ -63,12 +63,17 @@
             <th>작성자</th>
             <th>내용</th>
             <th>작성시간</th>
+<!--            <th>삭제</th>-->
         </tr>
         <tr th:each="comment : ${commentList}">
             <td th:text="${comment.id}"></td>
             <td th:text="${comment.commentWriter}"></td>
             <td th:text="${comment.commentContents}"></td>
             <td th:text="*{#temporals.format(comment.createdTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+<!--            <td th:if="${session.loginMemberEmail} and ${session.loginMemberEmail.toString()} == ${comment.commentWriter}">-->
+<!--                <a th:href="@{|/comment/delete/${comment.id}|}">삭제</a>-->
+<!--            </td>-->
+<!--            <td th:unless="${session.loginMemberEmail}"></td>-->
         </tr>
     </table>
 </div>
@@ -91,18 +96,26 @@
             dataType: "json",
             success: function (result) {
 
-
                 let output = "<table class='table container'>";
                 output += "<tr><th>댓글번호</th>";
                 output += "<th>작성자</th>";
                 output += "<th>내용</th>";
                 output += "<th>작성시간</th>";
+                // output += "<th>삭제</th>";
+
                 for (let i in result) {
                     output += "<tr>";
                     output += "<td>" + result[i].id + "</td>";
                     output += "<td>" + result[i].commentWriter + "</td>";
                     output += "<td>" + result[i].commentContents + "</td>";
                     output += "<td th:text='*{#temporals.format(" + result[i].createdTime + ", 'yyyy-MM-dd HH:mm:ss'" + ")}'>" + "</td>";
+                    // if(result[i].commentWriter == '${session.loginMemberEmail}'){
+                    //
+                    // }
+                    // output += "<td th:if=\"${session.loginMemberEmail} and ${session.loginMemberEmail.toString()} == ${comment.commentWriter}\">\n" +
+                    //     "<a th:href=\"@{|/comment/delete/${comment.id}|}\">삭제</a>\n" +
+                    //     "</td>\n" +
+                    //     "<td th:unless=\"${session.loginMemberEmail}\"></td>"
                     output += "</tr>";
 
                 }

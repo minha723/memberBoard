@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/comment")
 public class CommentController {
 
-    private final CommentService commentService;
+        private final CommentService commentService;
 
     @PostMapping("/save")
     public @ResponseBody List<CommentDTO> save(@ModelAttribute CommentDTO commentDTO){
@@ -21,4 +21,10 @@ public class CommentController {
         List<CommentDTO> commentDTOList = commentService.findByBoardId(commentDTO.getCommentBoardId());
         return commentDTOList;
     }
+
+//    @GetMapping("/delete/{id}")
+//    public String deleteById(@PathVariable("id") Long id){
+//        commentService.deleteById(id);
+//        return "redirect:/board/";
+//    }
 }
