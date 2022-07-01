@@ -8,26 +8,33 @@
 
 </head>
 <body>
-<table class="table">
-    <tr>
-        <th>이메일</th>
-        <th>비밀번호</th>
-        <th>이름</th>
-        <th>조회</th>
-        <th>삭제</th>
-    </tr>
-    <tr th:each="member : ${memberList}">
-        <td><a th:href="@{|/member/${member.id}|}">[[${member.memberEmail}]]</a></td>
-        <td th:text="${member.memberPassword}"></td>
-        <td th:text="${member.memberName}"></td>
-        <td>
-            <a th:href="@{|/member/${member.id}|}">조회</a>
-        </td>
-        <td><a th:href="@{|/member/delete/${member.id}|}">삭제</a></td>
-    </tr>
-</table>
 
-<div id="member-detail"> </div>
+<th:block th:replace="commonPages/header :: header"></th:block>
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>이메일</th>
+            <th>비밀번호</th>
+            <th>이름</th>
+            <th>조회</th>
+            <th>삭제</th>
+        </tr>
+        <tr th:each="member : ${memberList}">
+            <td><a th:href="@{|/member/${member.id}|}">[[${member.memberEmail}]]</a></td>
+            <td th:text="${member.memberPassword}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td>
+                <a th:href="@{|/member/${member.id}|}">조회</a>
+            </td>
+            <td><a th:href="@{|/member/delete/${member.id}|}">삭제</a></td>
+        </tr>
+    </table>
+</div>
+
+<div id="member-detail">
+
+</div>
 
 </body>
 

@@ -5,14 +5,17 @@
     <title>Title</title>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
 
-<form action="/board/save" method="post" enctype="multipart/form-data">
-    <input type="text" name="boardTitle" placeholder="제목"><br>
-    <input type="text" name="boardWriter" th:value="${session.loginMemberEmail}" readonly><br>
-    <input type="text" name="boardContents" placeholder="내용"><br>
-    <input type="file" name="boardFile"><br>
-    <input type="submit" value="작성">
-</form>
+<div class="container text-center">
+    <form action="/board/save" method="post" enctype="multipart/form-data">
+        <input class="form-control mb-2"  type="text" name="boardTitle" placeholder="제목"><br>
+        <input class="form-control mb-2"  type="text" name="boardWriter" th:value="${session.loginMemberEmail}" readonly><br>
+        <textarea class="form-control mb-2"  type="text" name="boardContents"  cols="5" rows="10"> 글작성 </textarea>
+        <input type="file" name="boardFile"><br>
+        <input  class="btn btn-primary" type="submit" value="작성">
+    </form>
+</div>
 
 </body>
 </html>

@@ -5,16 +5,19 @@
     <title>Title</title>
 </head>
 <body>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="py-5 container text-center">
 
-<form action="/board/update" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" th:value="${updateBoard.id}" readonly><br>
-    <input type="text" name="boardWriter" th:value="${updateBoard.boardWriter}" readonly><br>
-    <input type="text" name="boardTitle" th:value="${updateBoard.boardTitle}" readonly><br>
-    <input type="text" name="boardContents" th:value="${updateBoard.boardContents}" ><br>
-    <input type="text" name="boardHit" th:value="${updateBoard.boardHits}" readonly><br>
-    <input type="hidden" name="boardFileName" th:value="${updateBoard.boardFileName}" readonly><br>
-    <input type="submit" value="수정하기">
-</form>
+    <form action="/board/update" method="post" enctype="multipart/form-data">
+        <input type="hidden"  class="form-control mb-2"  name="id" th:value="${updateBoard.id}" readonly><br>
+        작성자 <input type="text" class="form-control mb-2"  name="boardWriter" th:value="${updateBoard.boardWriter}" readonly><br>
+        글제목 <input type="text" class="form-control mb-2"  name="boardTitle" th:value="${updateBoard.boardTitle}" readonly><br>
+        글내용 <input type="text"  class="form-control mb-2" name="boardContents" th:value="${updateBoard.boardContents}"><br>
+        조회수 <input type="text"  class="form-control mb-2" name="boardHit" th:value="${updateBoard.boardHits}" readonly><br>
+        <input type="hidden" name="boardFileName" th:value="${updateBoard.boardFileName}" readonly><br>
+        <input type="submit" value="수정하기">
+    </form>
+</div>
 
 </body>
 </html>

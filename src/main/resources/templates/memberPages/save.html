@@ -7,18 +7,22 @@
 
 </head>
 <body>
-<h2>save-form</h2>
+<th:block th:replace="commonPages/header :: header"></th:block>
+
+<div class="container text-center">
 
 <form action="/member/save" method="post" enctype="multipart/form-data">
-    <input type="text" id="memberEmail" name="memberEmail" onblur="duplicateCheck()" placeholder="이메일"> <br>
-    <p id="duplicate-check"></p>
-    <input type="text" name="memberPassword" placeholder="비밀번호"> <br>
-    <input type="text" name="memberName" placeholder="이름"> <br>
-    <input type="text" name="memberMobile" placeholder="전화번호"> <br>
-    <input type="file" name="memberProfile"> <br>
+    <input class="form-control" type="text" id="memberEmail" name="memberEmail" onblur="duplicateCheck()" placeholder="이메일">
+    <span id="duplicate-check"></span>
+    <input class="form-control" id="memberPassword" onblur="regExpPw()" type="text" name="memberPassword" placeholder="비밀번호">
+    <span id="pw-exp-check-result"></span>
+    <input class="form-control"  type="text" name="memberName" placeholder="이름">
+    <input class="form-control" id="memberMobile"  onblur="regExpMo()"type="text" name="memberMobile" placeholder="전화번호">
+    <span id="mo-exp-check-result"></span>
+    <input class="form-control mb-3" type="file" name="memberProfile">
     <input type="submit" value="회원가입">
 </form>
-
+</div>
 </body>
 <script th:inline="javascript">
     const duplicateCheck = () => {
@@ -43,6 +47,29 @@
               alert("ajax 실패");
           }
       })
+    }
+    const regExpPw = () => {
+        let memberPassword = document.getElementById("memberPassword").value;
+        const pwExp = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+        const checkResult = document.getElementById("pw-exp-check-result");
+        if(!pwExp.test(memberPassword)){
+            checkResult.innerText = "최소 8 자, 하나 이상의 문자, 하나의 숫자 및 하나의 특수 문자 입력";
+            checkResult.style.color = "red";
+        } else{
+            checkResult.innerText = "";
+        }
+    }
+
+    const regExpMo = () => {
+        let memberMobile = document.getElementById("memberMobile").value;
+        const moExp = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+        const checkResult = document.getElementById("mo-exp-check-result");
+        if(!moExp.test(memberMobile)){
+            checkResult.innerText = "전화번호 형식을 확이해주세요";
+            checkResult.style.color = "red";
+        } else{
+            checkResult.innerText = "";
+        }
     }
 </script>
 </html>

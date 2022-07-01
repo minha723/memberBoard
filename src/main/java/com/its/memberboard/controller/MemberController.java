@@ -30,26 +30,6 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
-    @GetMapping("/login")
-    public String loginForm() {
-        return "memberPages/login";
-    }
-
-    @PostMapping("/login")
-    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
-        MemberDTO loginResult = memberService.login(memberDTO);
-        if (loginResult != null) {
-            session.setAttribute("loginId", loginResult.getId());
-            session.setAttribute("loginMemberEmail", loginResult.getMemberEmail());
-            if(loginResult.getMemberEmail().equals("admin")){
-                return "memberPages/admin";
-            }
-            return "index";
-        } else {
-            return "memberPages/login";
-        }
-
-    }
     @PostMapping("/dup-check")
     public @ResponseBody String duplicateCheck(String memberEmail){
         MemberDTO memberDTO = memberService.duplicateCheck(memberEmail);
@@ -78,6 +58,29 @@ public class MemberController {
         memberService.deleteById(id);
         return "redirect: /member/";
     }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "memberPages/login";
+    }
+
+    @PostMapping("/login")
+    public String login(@ModelAttribute MemberDTO memberDTO, HttpSession session) {
+        MemberDTO loginResult = memberService.login(memberDTO);
+        if (loginResult != null) {
+            session.setAttribute("loginId", loginResult.getId());
+            session.setAttribute("loginMemberEmail", loginResult.getMemberEmail());
+            if(loginResult.getMemberEmail().equals("admin")){
+                return "memberPages/admin";
+            }
+            return "index";
+        } else {
+            return "memberPages/login";
+        }
+
+    }
+
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session){

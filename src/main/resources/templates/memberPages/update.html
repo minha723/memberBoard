@@ -7,15 +7,21 @@
 
 </head>
 <body>
-<form action="/member/update" method="post" name="updateForm">
-    <input type="hidden" name="id" th:value="${updateMember.id}"><br>
-    <input type="text" id="memberEmail" name="memberEmail" th:value="${updateMember.memberEmail}" readonly><br>
-    <input type="text" id="memberPassword" name="memberPassword"><br>
-    <input type="text" id="memberName" name="memberName" th:value="${updateMember.memberName}" readonly><br>
-    <input type="text" id="memberPhone" name="memberMobile" th:value="${updateMember.memberMobile}" ><br>
-    <input type="hidden" name="memberProfileName" th:value="${updateMember.getMemberProfileName()}">
-    <input type="button" th:onclick="update()" value="수정">
-</form>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="container">
+    <div class="py-5 text-center">
+
+        <form action="/member/update" method="post" name="updateForm">
+            <input type="hidden" name="id" th:value="${updateMember.id}"><br>
+            <input class="form-control mb-2"  type="text" id="memberEmail" name="memberEmail" th:value="${updateMember.memberEmail}" readonly><br>
+            <input  class="form-control mb-2" type="text" id="memberPassword" name="memberPassword"><br>
+            <input  class="form-control mb-2" type="text" id="memberName" name="memberName" th:value="${updateMember.memberName}" readonly><br>
+            <input class="form-control mb-2"  type="text" id="memberPhone" name="memberMobile" th:value="${updateMember.memberMobile}"><br>
+            <input type="hidden" name="memberProfileName" th:value="${updateMember.getMemberProfileName()}">
+            <input type="button" class="btn btn-primary"  th:onclick="update()" value="수정">
+        </form>
+    </div>
+</div>
 </body>
 
 

@@ -5,10 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-<form action="login" method="post">
-    <input type="text" name="memberEmail" placeholder="이메일입력">
-    <input type="text" name="memberPassword" placeholder="비밀번호입력">
-    <input type="submit" value="로그인">
-</form>
+<th:block th:replace="commonPages/header :: header"></th:block>
+<div class="container text-center">
+    <form action="login" method="post">
+        <input class="form-control mb-2" type="text" name="memberEmail" placeholder="이메일입력">
+        <input class="form-control mb-2" type="text" name="memberPassword" placeholder="비밀번호입력">
+        <input class="btn btn-primary" type="submit" value="로그인">
+    </form>
+</div>
+
 </body>
 </html>

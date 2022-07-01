@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="header">
+    <meta charset="UTF-8">
+    <title>header</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+    <div class="container">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32">
+                    <use xlink:href="#bootstrap"/>
+                </svg>
+                <span class="fs-4">Robyn's Blackboard</span>
+            </a>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/board/" class="nav-link">글목록</a></li>
+
+<!--                <div style="width: 100px; height: auto; overflow: hidden; white-space: nowrap"-->
+<!--                     th:if="${session.loginMemberEmail}" class="input-group">-->
+<!--                    <li th:if="${session.loginMemberEmail.toString().equals('admin')}">-->
+<!--                        <a href="/member/" class="nav-link"> 회원 목록 보기</a>-->
+<!--                    </li>-->
+<!--                </div>-->
+
+                <li th:if="${session.loginMemberEmail}" class="nav-item"><a href="/board/save" class="nav-link">글쓰기</a></li>
+                <li th:if="${session.loginMemberEmail}">
+                    <a href="/member/logout" class="nav-link">로그아웃</a>
+                </li>
+
+                <li th:unless="${session.loginMemberEmail}">
+                    <a href="/member/login" class="nav-link">로그인</a>
+                </li>
+            </ul>
+        </header>
+    </div>
+
+    <div class="b-example-divider"></div>
+</th:block>
+
+
+</html>

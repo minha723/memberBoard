@@ -8,46 +8,56 @@
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-<table class="table">
-    <tr>
-        <th>글번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>내용</th>
-        <th>조회수</th>
-        <th>첨부파일</th>
-    </tr>
-    <tr>
-        <td th:text="${board.id}"></td>
-        <td th:text="${board.boardTitle}"></td>
-        <td th:text="${board.boardWriter}"></td>
-        <td th:text="${board.boardContents}"></td>
-        <td th:text="${board.boardHits}"></td>
-        <td><img th:src="@{|/upload/${board.boardFileName}|}" width="100" height="100" alt=""></td>
-    </tr>
-</table>
+<th:block th:replace="commonPages/header :: header"></th:block>
 
-<div th:if="${session.loginMemberEmail}">
-    <input type="hidden" id="commentBoardId" name="commentBoardId" th:value="${board.id}">
-    작성자:
-    <input type="text" id="commentWriter" name="commentWriter" readonly th:value="${session.loginMemberEmail}">
-    댓글:
-    <input type="text" id="commentContents" name="commentContents">
-    <input type="button" th:onclick="commentSave([[${board.id}]])" value="댓글달기">
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>글번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>내용</th>
+            <th>조회수</th>
+            <th>첨부파일</th>
+        </tr>
+        <tr>
+            <td th:text="${board.id}"></td>
+            <td th:text="${board.boardTitle}"></td>
+            <td th:text="${board.boardWriter}"></td>
+            <td th:text="${board.boardContents}"></td>
+            <td th:text="${board.boardHits}"></td>
+            <td><img th:src="@{|/upload/${board.boardFileName}|}" width="100" height="100" alt=""></td>
+        </tr>
+    </table>
+    <div class="text-end" th:if="${session.loginMemberEmail}">
+        <div th:if="${session.loginMemberEmail.toString().equals('admin')}">
+            <button class="btn btn-outline-warning"><a th:href="@{|/board/delete/${board.id}|}">글 삭제</a></button>
+        </div>
+        <div th:if="${session.loginMemberEmail.toString()}==${board.boardWriter}">
+            <button class="btn btn-outline-warning"><a style="text-decoration: none" th:href="@{|/board/update/${board.id}|}">글 수정</a></button>
+            <button class="btn btn-outline-warning"><a style="text-decoration: none" th:href="@{|/board/delete/${board.id}|}">글 삭제</a></button>
+        </div>
+    </div>
 </div>
 
-<div th:if="${session.loginMemberEmail}">
-    <div th:if="${session.loginMemberEmail.toString().equals('admin')}">
-        <button class="btn"><a th:href="@{|/board/delete/${board.id}|}">삭제</a></button>
-    </div>
-    <div th:if="${session.loginMemberEmail.toString()}==${board.boardWriter}">
-        <button class="btn"><a th:href="@{|/board/update/${board.id}|}">수정</a></button>
-        <button class="btn"><a th:href="@{|/board/delete/${board.id}|}">삭제</a></button>
+
+<div class="container mt-5" th:if="${session.loginMemberEmail}">
+    <div id="comment-write" class="input-group mb-3">
+        <div class="form-floating">
+            <input type="text" id="commentWriter" class="form-control" name="commentWriter" th:value="${board.boardWriter}" readonly>
+            <label for="commentWriter">작성자</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" id="commentContents" class="form-control" name="commentContents">
+            <label for="commentContents">내용</label>
+        </div>
+        <button id="comment-write-btn" class="btn btn-primary" th:onclick="commentSave([[${board.id}]])" >댓글작성</button>
     </div>
 </div>
 
 <div id="comment-list">
-    <table class="table">
+    <table class="table container">
         <tr>
             <th>댓글번호</th>
             <th>작성자</th>
@@ -81,7 +91,8 @@
             dataType: "json",
             success: function (result) {
 
-                let output = "<table class='table'>";
+
+                let output = "<table class='table container'>";
                 output += "<tr><th>댓글번호</th>";
                 output += "<th>작성자</th>";
                 output += "<th>내용</th>";
